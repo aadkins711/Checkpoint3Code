@@ -1,0 +1,10 @@
+CREATE TABLE "Book" (
+	"ISBN"	INTEGER NOT NULL,
+	"Title"	TEXT NOT NULL,
+	"PubDate"	TEXT,
+	"Quantity"	INTEGER,
+	"Genre"	TEXT,
+	"Price"	NUMERIC,
+	PRIMARY KEY("ISBN")
+);
+
