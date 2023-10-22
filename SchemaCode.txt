@@ -1,10 +1,67 @@
 CREATE TABLE "Book" (
-	"ISBN"	INTEGER NOT NULL,
+	"ISBN"	TEXT NOT NULL,
 	"Title"	TEXT NOT NULL,
 	"PubDate"	TEXT,
-	"Quantity"	INTEGER,
 	"Genre"	TEXT,
 	"Price"	NUMERIC,
+	"Quantity"	INTEGER,
 	PRIMARY KEY("ISBN")
+)
+
+CREATE TABLE "Customer" (
+	"CustomerID"	INTEGER NOT NULL,
+	"CustomerName"	TEXT NOT NULL,
+	PRIMARY KEY("CustomerID")
 );
 
+CREATE TABLE "Review" (
+	"CustomerID"	INTEGER NOT NULL,
+	"R_ISBN"	INTEGER NOT NULL,
+	"CustomerRating"	INTEGER,
+	PRIMARY KEY("CustomerID","R_ISBN"),
+	FOREIGN KEY("CustomerID") REFERENCES "Customer"("CustomerID"),
+	FOREIGN KEY("R_ISBN") REFERENCES "Book"("ISBN")
+);
+
+CREATE TABLE "Publisher" (
+	"PublisherName"	TEXT NOT NULL,
+	PRIMARY KEY("PublisherName")
+);
+
+CREATE TABLE "Author" (
+	"FirstName"	TEXT NOT NULL,
+	"LastName"	TEXT NOT NULL,
+	PRIMARY KEY("FirstName","LastName")
+);
+
+CREATE TABLE "Format" (
+	"Format_T"	TEXT NOT NULL,
+	PRIMARY KEY("Format_T")
+);
+
+CREATE TABLE "Type" (
+	"T_ISBN"	INTEGER NOT NULL,
+	"Fomat"	TEXT NOT NULL,
+	FOREIGN KEY("T_ISBN") REFERENCES "Book"("ISBN"),
+	PRIMARY KEY("T_ISBN","Fomat"),
+	FOREIGN KEY("Fomat") REFERENCES "Format"("Format_T")
+);
+
+CREATE TABLE "Written_By" (
+	"A_ISBN"	INTEGER NOT NULL,
+	"A_FirstName"	TEXT NOT NULL,
+	"A_LastName"	TEXT NOT NULL,
+	FOREIGN KEY("A_FirstName") REFERENCES "Author"("FirstName"),
+	FOREIGN KEY("A_LastName") REFERENCES "Author"("LastName"),
+	PRIMARY KEY("A_ISBN","A_FirstName","A_LastName"),
+	FOREIGN KEY("A_ISBN") REFERENCES "Book"("ISBN")
+);
+
+CREATE TABLE "Purchase" (
+	"CustomerID"	INTEGER NOT NULL,
+	"P_ISBN"	INTEGER NOT NULL,
+	"Quantity"	INTEGER,
+	FOREIGN KEY("P_ISBN") REFERENCES "Book"("ISBN"),
+	PRIMARY KEY("CustomerID","P_ISBN"),
+	FOREIGN KEY("CustomerID") REFERENCES "Customer"("CustomerID")
+);
